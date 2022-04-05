@@ -13,9 +13,6 @@ public class Main {
         blockchain.addBlock();
         blockchain.addBlock();
 
-        for (Block block: blockchain.getAllBlocks()) {
-            System.out.println(block);
-        }
 
     }
 }
