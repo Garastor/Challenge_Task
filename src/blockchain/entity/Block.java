@@ -57,14 +57,14 @@ public class Block {
     @Override
     public String toString() {
         return "\nBlock:\n" +
-        "Created by miner #  " + minerId +
-        "\nId: " + blockId +
-        "\nTimestamp: " + timeStamp +
-        "\nMagic number: " + magicNumber +
-        "\nHash of the previous block:\n" +
+                "Created by miner #  " + minerId +
+                "\nId: " + blockId +
+                "\nTimestamp: " + timeStamp +
+                "\nMagic number: " + magicNumber +
+                "\nHash of the previous block:\n" +
                 previousBlockHash +
-        "\nHash of the block:\n" +
+                "\nHash of the block:\n" +
                 blockHash + "\n" +
-        "Block was generating for " + miningTime + " seconds";
+                "Block was generating for " + miningTime + " seconds";
     }
 }

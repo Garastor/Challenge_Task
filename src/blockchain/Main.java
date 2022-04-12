@@ -12,6 +12,6 @@ public class Main {
             blockchain.addMiner(new Miner(blockchain));
         }
         blockchain.start();
-        
+
     }
 }

@@ -9,7 +9,7 @@ public class Miner implements Runnable {
     private Blockchain blockchain;
     private boolean run;
 
-    public Miner (Blockchain blockchain) {
+    public Miner(Blockchain blockchain) {
         blockService = new BlockService();
         this.blockchain = blockchain;
         run = true;
@@ -33,13 +33,5 @@ public class Miner implements Runnable {
 
     public void setBlockChain(Blockchain blockchain) {
         this.blockchain = blockchain;
-    }
-
-    public boolean isRun() {
-        return run;
-    }
-
-    public int getMinerId() {
-        return minerId;
     }
 }

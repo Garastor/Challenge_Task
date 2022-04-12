@@ -44,7 +44,7 @@ public class Blockchain {
     }
 
     public void addMiner(Miner miner) {
-        miner.setMinerId(miners.size()+ONE.intValue());
+        miner.setMinerId(miners.size() + ONE.intValue());
         miners.add(miner);
     }
 
