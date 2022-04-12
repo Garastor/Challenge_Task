@@ -2,62 +2,69 @@ package blockchain.entity;
 
 import java.util.Date;
 
-
 public class Block {
-    int id;
-    private String hash;
-    private String previousHash;
-    private long timeStamp;
-    private int nonce;
+    private final int minerId;
+    private int blockId;
+    private String blockHash;
+    private final String previousBlockHash;
+    private final long timeStamp;
+    private int magicNumber;
+    private int miningTime;
 
-    public Block(int id, String previousHash) {
-        this.id = id;
-        this.previousHash = previousHash;
+    public Block(String previousHash, int minerId) {
+        this.previousBlockHash = previousHash;
         this.timeStamp = new Date().getTime();
-        this.nonce = 0;
+        this.minerId = minerId;
+        this.magicNumber = 0;
     }
 
-    public String getHash() {
-        return hash;
+    public int getMiningTime() {
+        return miningTime;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setMiningTime(int miningTime) {
+        this.miningTime = miningTime;
     }
 
-    public String getPreviousHash() {
-        return previousHash;
+    public void setBlockId(int blockId) {
+        this.blockId = blockId;
     }
 
-    public void setPreviousHash(String previousHash) {
-        this.previousHash = previousHash;
+    public String getBlockHash() {
+        return blockHash;
+    }
+
+    public void setBlockHash(String blockHash) {
+        this.blockHash = blockHash;
+    }
+
+    public String getPreviousBlockHash() {
+        return previousBlockHash;
     }
 
     public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public int getMagicNumber() {
+        return magicNumber;
     }
 
-    public int getNonce() {
-        return nonce;
-    }
-
-    public void setNonce(int nonce) {
-        this.nonce = nonce;
+    public void setMagicNumber(int magicNumber) {
+        this.magicNumber = magicNumber;
     }
 
     @Override
     public String toString() {
         return "\nBlock:\n" +
-        "Id: " + id +
+        "Created by miner #  " + minerId +
+        "\nId: " + blockId +
         "\nTimestamp: " + timeStamp +
-        "\nMagic number: " + nonce +
+        "\nMagic number: " + magicNumber +
         "\nHash of the previous block:\n" +
-        previousHash +
+                previousBlockHash +
         "\nHash of the block:\n" +
-        hash + "\n";
+                blockHash + "\n" +
+        "Block was generating for " + miningTime + " seconds";
     }
 }

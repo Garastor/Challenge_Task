@@ -3,30 +3,29 @@ package blockchain.service;
 import blockchain.entity.Block;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Scanner;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
+import java.util.Date;
 
 public class BlockService {
 
-    Scanner scanner = new Scanner(System.in);
+    private static final String CRYPT = "SHA-256";
 
-    public Block mineBlock (int prefix, int id, String previousHash) {
-        Block block = new Block(id, previousHash);
-        block.setHash(calculateBlockHash(block));
+    public Block mineBlock (int prefix, String previousHash, int minerId) {
+        long startTime = new Date().getTime();
+        Block block = new Block(previousHash, minerId);
+        block.setBlockHash(calculateBlockHash(block));
         String prefixString = new String(new char[prefix]).replace('\0', '0');
-        while (!block.getHash().substring(0, prefix).equals(prefixString)) {
-            block.setNonce(block.getNonce()+1);
-            block.setHash(calculateBlockHash(block));
+        while (!block.getBlockHash().substring(0, prefix).equals(prefixString)) {
+            block.setMagicNumber(block.getMagicNumber()+1);
+            block.setBlockHash(calculateBlockHash(block));
         }
+        block.setMiningTime((int) (System.currentTimeMillis()-startTime));
         return block;
     }
 
     private String calculateBlockHash (Block block){
-        String input = block.getPreviousHash()+block.getTimeStamp()+block.getNonce();
+        String input = block.getPreviousBlockHash()+block.getTimeStamp()+block.getMagicNumber();
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance(CRYPT);
             byte[] hash = digest.digest(input.getBytes("UTF-8"));
             StringBuilder hexString = new StringBuilder();
             for (byte elem: hash) {
