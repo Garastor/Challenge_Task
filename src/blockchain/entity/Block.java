@@ -1,15 +1,17 @@
 package blockchain.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Block {
-    private final int minerId;
-    private int blockId;
-    private String blockHash;
     private final String previousBlockHash;
     private final long timeStamp;
+    private final int minerId;
+    private String blockHash;
+    private int blockId;
     private int magicNumber;
     private int miningTime;
+    private int value;
 
     public Block(String previousHash, int minerId) {
         this.previousBlockHash = previousHash;
@@ -54,17 +56,31 @@ public class Block {
         this.magicNumber = magicNumber;
     }
 
+    public int getMinerId() {
+        return minerId;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return "\nBlock:\n" +
                 "Created by miner #  " + minerId +
+                "\nminer " + minerId + " gets " + value + " VC" +
                 "\nId: " + blockId +
                 "\nTimestamp: " + timeStamp +
                 "\nMagic number: " + magicNumber +
                 "\nHash of the previous block:\n" +
                 previousBlockHash +
                 "\nHash of the block:\n" +
-                blockHash + "\n" +
-                "Block was generating for " + miningTime + " seconds";
+                blockHash +
+                "\nBlock was generating for " + miningTime + " seconds";
     }
+
 }
