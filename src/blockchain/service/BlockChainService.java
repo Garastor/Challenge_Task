@@ -11,7 +11,7 @@ import static java.math.BigInteger.ZERO;
 
 public class BlockChainService {
 
-    private BlockChain blockChain;
+    private final BlockChain blockChain;
 
     public BlockChainService(BlockChain blockChain) {
         this.blockChain = blockChain;
@@ -52,6 +52,5 @@ public class BlockChainService {
                     blockList.get(blockList.size() - ONE.intValue()).getBlockHash());
         }
     }
-
 
 }

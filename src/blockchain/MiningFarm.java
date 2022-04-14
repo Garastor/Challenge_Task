@@ -29,12 +29,6 @@ public class MiningFarm {
         return prefix;
     }
 
-    public void addMiner(Miner miner) {
-        miner.setMinerId(miners.size() + ONE.intValue());
-        miner.setBlockChainService(blockChainService);
-        miners.add(miner);
-    }
-
     public synchronized void addBlock(Block block) {
         if (!run) return;
         if (!blockChainService.checkBlock(block)) return;
@@ -52,16 +46,6 @@ public class MiningFarm {
         }
     }
 
-    public void calculatePrefix(Block block) {
-        if (block.getMiningTime() >= 60 && prefix != 0) {
-            System.out.println("N was decreased by " + --prefix + "\n");
-        } else if (block.getMiningTime() <= 10) {
-            System.out.println("N was increased to " + ++prefix + "\n");
-        } else {
-            System.out.println("N stays the same\n");
-        }
-    }
-
     public void startMining() {
         System.out.println("Type number of miners: ");
         int numberMiners = scanner.nextInt();
@@ -72,6 +56,22 @@ public class MiningFarm {
         System.out.println("Type wallet course: ");
         blockChainService.getBlockChain().setWalletCourse(scanner.nextInt());
         miners.forEach(Miner::start);
+    }
+
+    private void addMiner(Miner miner) {
+        miner.setMinerId(miners.size() + ONE.intValue());
+        miner.setBlockChainService(blockChainService);
+        miners.add(miner);
+    }
+
+    private void calculatePrefix(Block block) {
+        if (block.getMiningTime() >= 60 && prefix != 0) {
+            System.out.println("N was decreased by " + --prefix + "\n");
+        } else if (block.getMiningTime() <= 10) {
+            System.out.println("N was increased to " + ++prefix + "\n");
+        } else {
+            System.out.println("N stays the same\n");
+        }
     }
 
 }
