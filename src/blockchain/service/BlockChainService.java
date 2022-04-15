@@ -45,7 +45,7 @@ public class BlockChainService {
 
     public boolean checkBlock(Block block) {
         List<Block> blockList = blockChain.getBlockList();
-        if (blockList.size() == 0) {
+        if (blockList.size() == ZERO.intValue()) {
             return true;
         } else {
             return Objects.equals(block.getPreviousBlockHash(),

@@ -8,6 +8,7 @@ import blockchain.service.BlockChainService;
 import java.util.*;
 
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
 
 public class MiningFarm {
 
@@ -49,7 +50,7 @@ public class MiningFarm {
     public void startMining() {
         System.out.println("Type number of miners: ");
         int numberMiners = scanner.nextInt();
-        while (numberMiners > 0) {
+        while (numberMiners > ZERO.intValue()) {
             addMiner(new Miner(this));
             numberMiners--;
         }
@@ -65,9 +66,11 @@ public class MiningFarm {
     }
 
     private void calculatePrefix(Block block) {
-        if (block.getMiningTime() >= 60 && prefix != 0) {
+        int upperTimeLimit = 60;
+        int lowerTimeLimit = 10;
+        if (block.getMiningTime() >= upperTimeLimit && prefix != ZERO.intValue()) {
             System.out.println("N was decreased by " + --prefix + "\n");
-        } else if (block.getMiningTime() <= 10) {
+        } else if (block.getMiningTime() <= lowerTimeLimit) {
             System.out.println("N was increased to " + ++prefix + "\n");
         } else {
             System.out.println("N stays the same\n");
