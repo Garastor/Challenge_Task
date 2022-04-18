@@ -1,6 +1,7 @@
 package blockchain.service;
 
 import blockchain.entity.Block;
+import blockchain.util.Constant;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,8 +11,6 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 public class BlockService {
-
-    private static final String CRYPT = "SHA-256";
 
     public Block mineBlock(int prefix, String previousHash, int minerId) {
         long startTime = new Date().getTime();
@@ -27,13 +26,17 @@ public class BlockService {
     }
 
     private String calculateBlockHash(Block block) {
-        String input = block.getPreviousBlockHash() + block.getTimeStamp() + block.getMagicNumber();
+        String input = new StringBuilder()
+                .append(block.getPreviousBlockHash())
+                .append(block.getTimeStamp())
+                .append(block.getMagicNumber())
+                .toString();
         try {
-            MessageDigest digest = MessageDigest.getInstance(CRYPT);
+            MessageDigest digest = MessageDigest.getInstance(Constant.SHA_256);
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
             for (byte elem : hash) {
-                String hex = Integer.toHexString(0xff & elem);
+                String hex = Integer.toHexString(Constant.MAX_BINARY_NUMBER & elem);
                 if (hex.length() == ONE.intValue()) hexString.append('0');
                 hexString.append(hex);
             }

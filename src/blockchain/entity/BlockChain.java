@@ -8,7 +8,7 @@ public class BlockChain {
     private final List<Block> blockList;
     private int walletCourse;
 
-    public BlockChain () {
+    public BlockChain() {
         blockList = new ArrayList<>();
     }
 
@@ -20,7 +20,7 @@ public class BlockChain {
         return blockList;
     }
 
-    public void addBlock (Block block) {
+    public void addBlock(Block block) {
         block.setValue(walletCourse);
         blockList.add(block);
     }

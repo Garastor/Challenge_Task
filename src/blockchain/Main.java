@@ -1,11 +1,11 @@
 package blockchain;
 
-import blockchain.entity.Miner;
+import blockchain.service.MiningFarmService;
 
 public class Main {
     public static void main(String[] args) {
 
-        MiningFarm miningFarm = new MiningFarm();
+        MiningFarmService miningFarm = new MiningFarmService();
 
         miningFarm.startMining();
 

@@ -1,11 +1,10 @@
 package blockchain.entity;
 
-import blockchain.MiningFarm;
+import blockchain.service.MiningFarmService;
 import blockchain.service.BlockChainService;
 import blockchain.service.BlockService;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Miner extends Thread {
 
@@ -13,10 +12,10 @@ public class Miner extends Thread {
     private int minerId;
     private int wallet;
     private boolean run;
-    private MiningFarm miningFarm;
+    private final MiningFarmService miningFarm;
     private BlockChainService blockChainService;
 
-    public Miner(MiningFarm miningFarm) {
+    public Miner(MiningFarmService miningFarm) {
         run = true;
         blockService = new BlockService();
         this.miningFarm = miningFarm;
@@ -53,8 +52,9 @@ public class Miner extends Thread {
         }
     }
 
-    public void updateWallet(List<Block> blockList) {
-        blockList.stream().filter(block -> block.getMinerId() == minerId)
+    public void setWallet(List<Block> blockList) {
+        blockList.stream()
+                .filter(block -> block.getMinerId() == minerId)
                 .forEach(block -> wallet += block.getValue());
     }
 

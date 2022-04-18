@@ -1,16 +1,16 @@
-package blockchain;
+package blockchain.service;
 
 import blockchain.entity.Block;
 import blockchain.entity.BlockChain;
 import blockchain.entity.Miner;
-import blockchain.service.BlockChainService;
+import blockchain.util.Constant;
 
 import java.util.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
-public class MiningFarm {
+public class MiningFarmService {
 
     private final BlockChainService blockChainService;
     private final Scanner scanner;
@@ -19,10 +19,10 @@ public class MiningFarm {
     private boolean run = true;
 
 
-    public MiningFarm() {
+    public MiningFarmService() {
         blockChainService = new BlockChainService(new BlockChain());
         miners = new ArrayList<>();
-        prefix = 0;
+        prefix = Constant.DEFAULT_PREFIX;
         scanner = new Scanner(System.in);
     }
 
@@ -37,24 +37,24 @@ public class MiningFarm {
         miners.forEach(miner -> miner.setBlockChainService(blockChainService));
         System.out.println(block);
         calculatePrefix(block);
-        if (blockChainService.getBlockchainSize() == 15) {
+        if (blockChainService.getBlockchainSize() == Constant.MAX_BLOCKCHAIN_SIZE) {
             run = false;
             miners.forEach(miner -> {
                 miner.setRun(false);
-                miner.updateWallet(blockChainService.getBlockChain().getBlockList());
+                miner.setWallet(blockChainService.getBlockChain().getBlockList());
                 System.out.printf("Miner #%d wallet: %d\n", miner.getMinerId(), miner.getWallet());
             });
         }
     }
 
     public void startMining() {
-        System.out.println("Type number of miners: ");
+        System.out.println(Constant.TYPE_NUMBER_OF_MINERS);
         int numberMiners = scanner.nextInt();
         while (numberMiners > ZERO.intValue()) {
             addMiner(new Miner(this));
             numberMiners--;
         }
-        System.out.println("Type wallet course: ");
+        System.out.println(Constant.TYPE_WALLET_COURSE);
         blockChainService.getBlockChain().setWalletCourse(scanner.nextInt());
         miners.forEach(Miner::start);
     }
@@ -69,11 +69,11 @@ public class MiningFarm {
         int upperTimeLimit = 60;
         int lowerTimeLimit = 10;
         if (block.getMiningTime() >= upperTimeLimit && prefix != ZERO.intValue()) {
-            System.out.println("N was decreased by " + --prefix + "\n");
+            System.out.println(Constant.N_DECREASED + "" + --prefix + "\n");
         } else if (block.getMiningTime() <= lowerTimeLimit) {
-            System.out.println("N was increased to " + ++prefix + "\n");
+            System.out.println(Constant.N_INCREASED + "" + ++prefix + "\n");
         } else {
-            System.out.println("N stays the same\n");
+            System.out.println(Constant.N_STAYS_THE_SAME);
         }
     }
 

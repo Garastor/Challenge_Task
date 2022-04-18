@@ -1,7 +1,6 @@
 package blockchain.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class Block {
     private final String previousBlockHash;
