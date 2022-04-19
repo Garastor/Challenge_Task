@@ -66,12 +66,12 @@ public class MiningFarmService {
     }
 
     private void calculatePrefix(Block block) {
-        int upperTimeLimit = 60;
-        int lowerTimeLimit = 10;
-        if (block.getMiningTime() >= upperTimeLimit && prefix != ZERO.intValue()) {
-            System.out.println(Constant.N_DECREASED + "" + --prefix + "\n");
-        } else if (block.getMiningTime() <= lowerTimeLimit) {
-            System.out.println(Constant.N_INCREASED + "" + ++prefix + "\n");
+        int secondsUpperLimit = 60;
+        int secondsLowerLimit = 10;
+        if (block.getMiningTime() >= secondsUpperLimit && prefix != ZERO.intValue()) {
+            System.out.println(Constant.N_DECREASED);
+        } else if (block.getMiningTime() <= secondsLowerLimit) {
+            System.out.println(Constant.N_INCREASED);
         } else {
             System.out.println(Constant.N_STAYS_THE_SAME);
         }

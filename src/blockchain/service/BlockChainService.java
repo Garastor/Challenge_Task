@@ -32,7 +32,7 @@ public class BlockChainService {
     public String getLastBlockHash() {
         List<Block> blockList = blockChain.getBlockList();
         if (blockList.size() == ZERO.intValue()) {
-            return "0";
+            return ZERO.toString();
         } else {
             return blockList.get(blockList.size() - ONE.intValue()).getBlockHash();
         }

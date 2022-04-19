@@ -5,6 +5,7 @@ import blockchain.util.Constant;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static java.math.BigInteger.ONE;
@@ -26,11 +27,8 @@ public class BlockService {
     }
 
     private String calculateBlockHash(Block block) {
-        String input = new StringBuilder()
-                .append(block.getPreviousBlockHash())
-                .append(block.getTimeStamp())
-                .append(block.getMagicNumber())
-                .toString();
+        String input = String
+                .format(Constant.FORMAT, block.getPreviousBlockHash(), block.getTimeStamp(), block.getMagicNumber());
         try {
             MessageDigest digest = MessageDigest.getInstance(Constant.SHA_256);
             byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
@@ -41,9 +39,11 @@ public class BlockService {
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
     }
+
 
 }
