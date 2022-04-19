@@ -2,6 +2,7 @@ package blockchain.service;
 
 import blockchain.entity.Block;
 import blockchain.util.Constant;
+import blockchain.util.CreateHashException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -40,10 +41,8 @@ public class BlockService {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            throw new CreateHashException("Creating hash error");
         }
     }
-
 
 }
