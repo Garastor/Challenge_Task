@@ -18,7 +18,6 @@ public class MiningFarmService {
     private int prefix;
     private boolean run = true;
 
-
     public MiningFarmService() {
         blockChainService = new BlockChainService(new BlockChain());
         miners = new ArrayList<>();
@@ -66,11 +65,11 @@ public class MiningFarmService {
     }
 
     private void calculatePrefix(Block block) {
-        int secondsUpperLimit = 60;
-        int secondsLowerLimit = 10;
-        if (block.getMiningTime() >= secondsUpperLimit && prefix != ZERO.intValue()) {
+        int upperTimeLimitInSeconds = 60;
+        int lowerTimeLimitInSeconds = 10;
+        if (block.getMiningTime() >= upperTimeLimitInSeconds && prefix != ZERO.intValue()) {
             System.out.println(Constant.N_DECREASED);
-        } else if (block.getMiningTime() <= secondsLowerLimit) {
+        } else if (block.getMiningTime() <= lowerTimeLimitInSeconds) {
             System.out.println(Constant.N_INCREASED);
         } else {
             System.out.println(Constant.N_STAYS_THE_SAME);

@@ -41,7 +41,7 @@ public class BlockService {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new CreateHashException("Creating hash error");
+            throw new CreateHashException(e.getMessage());
         }
     }
 
