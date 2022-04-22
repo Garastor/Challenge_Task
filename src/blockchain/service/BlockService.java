@@ -1,53 +1,48 @@
 package blockchain.service;
 
 import blockchain.entity.Block;
+import blockchain.util.Constant;
+import blockchain.util.CreateHashException;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
 
 public class BlockService {
 
-    public Block generateBlock (int id, String previousHash) {
-        Block block = new Block(id, previousHash);
-        block.setHash(calculateBlockHash(block));
+    public Block mineBlock(int prefix, String previousHash, int minerId) {
+        long startTime = new Date().getTime();
+        Block block = new Block(previousHash, minerId);
+        block.setBlockHash(calculateBlockHash(block));
+        String prefixString = new String(new char[prefix]).replace('\0', '0');
+        while (!block.getBlockHash().substring(ZERO.intValue(), prefix).equals(prefixString)) {
+            block.setMagicNumber(block.getMagicNumber() + ONE.intValue());
+            block.setBlockHash(calculateBlockHash(block));
+        }
+        block.setMiningTime((int) (System.currentTimeMillis() - startTime));
         return block;
     }
 
-    private String calculateBlockHash (Block block){
-        String input = block.getPreviousHash()+String.valueOf(block.getTimeStamp());
+    private String calculateBlockHash(Block block) {
+        String input = String
+                .format(Constant.FORMAT, block.getPreviousBlockHash(), block.getTimeStamp(), block.getMagicNumber());
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(input.getBytes("UTF-8"));
+            MessageDigest digest = MessageDigest.getInstance(Constant.SHA_256);
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             StringBuilder hexString = new StringBuilder();
-            for (byte elem: hash) {
-                String hex = Integer.toHexString(0xff & elem);
-                if(hex.length() == 1) hexString.append('0');
+            for (byte elem : hash) {
+                String hex = Integer.toHexString(Constant.MAX_BINARY_NUMBER & elem);
+                if (hex.length() == ONE.intValue()) hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new CreateHashException(e.getMessage());
         }
-        catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String calculateBlockHash2 (Block block) {
-        String dataToHash = block.getPreviousHash() + Long.toString(block.getTimeStamp());
-        MessageDigest digest = null;
-        byte[] bytes = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-            bytes = digest.digest(dataToHash.getBytes(UTF_8));
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println(ex.getMessage());
-        }
-        StringBuffer buffer = new StringBuffer();
-        for (byte b : bytes) {
-            buffer.append(String.format("%02x", b));
-        }
-        return buffer.toString();
     }
 
 }
